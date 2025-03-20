@@ -1,102 +1,108 @@
-const history = [];
-
-function clearDisplay() {
-    document.getElementById('display').value = '';
-}
-
-function deleteLast() {
-    let display = document.getElementById('display');
-    display.value = display.value.slice(0, -1);
-}
-
-function appendCharacter(char) {
-    document.getElementById('display').value += char;
-}
-
-function calculate() {
-    try {
-        let display = document.getElementById('display');
-        const expression = display.value;
-        const result = eval(expression);
-        display.value = result;
-
-        addToHistory(expression, result);
-    } catch {
-        alert("Neplatný výraz");
-    }
-}
-
-function addToHistory(expression, result) {
-    if (history.length >= 20) {
-        history.shift();
-    }
-    history.push({ expression, result });
-    renderHistory();
-}
-
-function renderHistory() {
-    const historyList = document.getElementById('history-list');
-    historyList.innerHTML = '';
-
-    history.forEach((item, index) => {
-        const li = document.createElement('li');
-        li.innerHTML = `
-            <span>${item.expression} = ${item.result}</span>
-            <button onclick="removeFromHistory(${index})">Smazat</button>
-        `;
-        historyList.appendChild(li);
-    });
-}
-
-function removeFromHistory(index) {
-    history.splice(index, 1);
-    renderHistory();
-}
-
-function updateClock() {
-    const now = new Date();
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const seconds = String(now.getSeconds()).padStart(2, '0');
-    document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
-}
-
-function updateTheme() {
-    const now = new Date();
-    const hour = now.getHours();
-
-    if (hour >= 8 && hour <= 20) {
-        document.body.classList.remove('dark-theme');
-        document.body.classList.add('light-theme');
-    } else {
-        document.body.classList.remove('light-theme');
-        document.body.classList.add('dark-theme');
-    }
-}
-
-function updateLibraryTheme() {
-    const now = new Date();
-    const hour = now.getHours();
-
-    const historyElement = document.querySelector('.history');
+// Funkce pro přepínání mezi režimy kalkulačky
+function switchMode() {
+    let calculator = document.getElementById('calculator');
+    let chemistryMode = document.getElementById('chemistryMode');
+    let standardMode = document.getElementById('standardMode');
     
-    if (hour >= 8 && hour <= 20) {
-        // Světlý motiv pro knihovnu
-        historyElement.classList.remove('dark-theme');
-        historyElement.classList.add('light-theme');
+    // Přepnutí mezi standardním a chemickým režimem
+    if (calculator.classList.contains('standard')) {
+        calculator.classList.remove('standard');
+        calculator.classList.add('chemical');
+        chemistryMode.classList.remove('hidden');
+        standardMode.classList.add('hidden');
+        localStorage.setItem('mode', 'chemical');
     } else {
-        // Tmavý motiv pro knihovnu
-        historyElement.classList.remove('light-theme');
-        historyElement.classList.add('dark-theme');
+        calculator.classList.remove('chemical');
+        calculator.classList.add('standard');
+        chemistryMode.classList.add('hidden');
+        standardMode.classList.remove('hidden');
+        localStorage.setItem('mode', 'standard');
     }
 }
 
-function updateThemeAndLibrary() {
-    updateTheme();
-    updateLibraryTheme();
+// Obnovení režimu po reloadu stránky
+window.onload = function() {
+    let mode = localStorage.getItem('mode');
+    if (mode === 'chemical') {
+        switchMode();
+    }
+    showRealTime();
+    changeBackgroundColor();
+};
+
+// Funkce pro přidání čísla nebo operátora do vstupu kalkulačky
+function appendToInput(value) {
+    document.getElementById('input').value += value;
 }
 
-setInterval(updateClock, 1000);
-updateClock();
-updateThemeAndLibrary();
-setInterval(updateThemeAndLibrary, 60000);  // Aktualizace každou minutu
+// Funkce pro vymazání vstupu kalkulačky
+function clearInput() {
+    document.getElementById('input').value = '';
+}
+
+// Funkce pro výpočty ve standardní kalkulačce
+function calculate() {
+    let input = document.getElementById('input').value;
+    try {
+        let result = eval(input);
+        document.getElementById('result').innerText = 'Výsledek: ' + result;
+        addToHistory(input + ' = ' + result);
+    } catch (e) {
+        document.getElementById('result').innerText = 'Chyba ve výpočtu';
+    }
+}
+
+// Funkce pro přidání výpočtu do historie
+function addToHistory(entry) {
+    let historyList = document.getElementById('historyList');
+    let li = document.createElement('li');
+    li.textContent = entry;
+    historyList.appendChild(li);
+}
+
+// Funkce pro výpočty v chemické kalkulačce
+function calculateChemical() {
+    let molarMass = parseFloat(document.getElementById('molarMass').value);
+    let amount = parseFloat(document.getElementById('amount').value);
+    let concentration = parseFloat(document.getElementById('concentration').value);
+    let volume = parseFloat(document.getElementById('volume').value);
+    let chemicalResult = document.getElementById('chemicalResult');
+    
+    if (!isNaN(molarMass) && !isNaN(amount)) {
+        let weight = molarMass * amount;
+        chemicalResult.innerText = 'Hmotnost: ' + weight.toFixed(2) + ' g';
+    } else if (!isNaN(concentration) && !isNaN(volume)) {
+        let moles = concentration * volume;
+        chemicalResult.innerText = 'Látkové množství: ' + moles.toFixed(2) + ' mol';
+    } else if (!isNaN(concentration) && !isNaN(volume) && !isNaN(molarMass)) {
+        let dilution = concentration * volume * molarMass;
+        chemicalResult.innerText = 'Ředění: ' + dilution.toFixed(2) + ' g';
+    } else {
+        chemicalResult.innerText = 'Neplatné vstupy';
+    }
+}
+
+// Funkce pro změnu pozadí podle času
+function changeBackgroundColor() {
+    let hour = new Date().getHours();
+    let calculator = document.getElementById('calculator');
+    if (hour >= 6 && hour < 18) {
+        calculator.style.backgroundColor = '#f4f4f4'; // Světlé pozadí
+    } else {
+        calculator.style.backgroundColor = '#333'; // Tmavé pozadí
+        document.body.style.color = '#fff';
+    }
+}
+
+// Funkce pro zobrazení aktuálního času
+function showRealTime() {
+    let timeElement = document.getElementById('realTime');
+    setInterval(() => {
+        let now = new Date();
+        timeElement.textContent = now.toLocaleTimeString();
+    }, 1000);
+}
+
+// Zavolání funkce pro změnu pozadí každou minutu
+setInterval(changeBackgroundColor, 60000);
+changeBackgroundColor();

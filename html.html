@@ -7,38 +7,55 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="clock-container">
-            <div id="clock">Načítání času...</div>
-        </div>
-        <div class="calculator">
-            <input type="text" id="display" disabled>
-            <div class="buttons">
-                <button onclick="clearDisplay()">C</button>
-                <button onclick="deleteLast()">DEL</button>
-                <button onclick="appendCharacter('/')">/</button>
-                <button onclick="appendCharacter('*')">*</button>
-                <button onclick="appendCharacter('7')">7</button>
-                <button onclick="appendCharacter('8')">8</button>
-                <button onclick="appendCharacter('9')">9</button>
-                <button onclick="appendCharacter('-')">-</button>
-                <button onclick="appendCharacter('4')">4</button>
-                <button onclick="appendCharacter('5')">5</button>
-                <button onclick="appendCharacter('6')">6</button>
-                <button onclick="appendCharacter('+')">+</button>
-                <button onclick="appendCharacter('1')">1</button>
-                <button onclick="appendCharacter('2')">2</button>
-                <button onclick="appendCharacter('3')">3</button>
-                <button onclick="calculate()">=</button>
-                <button onclick="appendCharacter('0')" class="zero">0</button>
-                <button onclick="appendCharacter('.')">.</button>
+    <div id="calculator" class="standard">
+        <!-- Tlačítko pro přepnutí režimu -->
+        <button id="switchModeButton" onclick="switchMode()">Přepnout režim</button>
+        
+        <!-- Standardní kalkulačka -->
+        <div id="standardMode">
+            <input type="text" id="input" placeholder="Zadejte výpočet">
+            
+            <div class="button-grid">
+                <button onclick="appendToInput('1')">1</button>
+                <button onclick="appendToInput('2')">2</button>
+                <button onclick="appendToInput('3')">3</button>
+                <button onclick="appendToInput('+')">+</button>
+                <button onclick="appendToInput('4')">4</button>
+                <button onclick="appendToInput('5')">5</button>
+                <button onclick="appendToInput('6')">6</button>
+                <button onclick="appendToInput('-')">-</button>
+                <button onclick="appendToInput('7')">7</button>
+                <button onclick="appendToInput('8')">8</button>
+                <button onclick="appendToInput('9')">9</button>
+                <button onclick="appendToInput('*')">*</button>
+                <button onclick="appendToInput('0')">0</button>
+                <button onclick="clearInput()">C</button>
+                <button id="equalButton" onclick="calculate()">=</button>
+                <button onclick="appendToInput('/')">/</button>
             </div>
         </div>
-        <div class="history">
-            <h2>Historie</h2>
-            <ul id="history-list"></ul>
+
+        <!-- Chemická kalkulačka -->
+        <div id="chemistryMode" class="hidden">
+            <input type="number" id="molarMass" placeholder="Molární hmotnost (g/mol)">
+            <input type="number" id="amount" placeholder="Látkové množství (mol)">
+            <input type="number" id="concentration" placeholder="Koncentrace (mol/l)">
+            <input type="number" id="volume" placeholder="Objem (l)">
+            <button id="calculateButton" onclick="calculateChemical()">Vypočítat</button>
+            <div id="chemicalResult"></div>
         </div>
+        
+        <!-- Výsledek výpočtu -->
+        <div id="result"></div>
+        
+        <!-- Historie výpočtů -->
+        <h3>Historie výpočtů:</h3>
+        <ul id="historyList"></ul>
+
+        <!-- Zobrazení aktuálního času -->
+        <div id="realTime"></div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>

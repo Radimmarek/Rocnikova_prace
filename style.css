@@ -1,172 +1,71 @@
-/* Světlý motiv */
-.light-theme {
-    background-color: rgb(5, 127, 98);
-    color: #333;
-}
-
-.light-theme .calculator {
-    background-color: #fff;
-}
-
-.light-theme button {
-    background-color: #f1f1f1;
-    color: #333;
-}
-
-.light-theme button:hover {
-    background-color: #eaeaea;
-}
-
-.light-theme #clock {
-    background-color: #e0f7fa;
-    color: #00796b;
-    border: 2px solid #00796b;
-    border-radius: 8px;
-    padding: 10px;
-    margin-bottom: 10px;
-}
-
-/* Tmavý motiv */
-.dark-theme {
-    background-color: #333;
-    color: #fff;
-}
-
-.dark-theme .calculator {
-    background-color: #444;
-}
-
-.dark-theme button {
-    background-color: #555;
-    color: #fff;
-}
-
-.dark-theme button:hover {
-    background-color: #666;
-}
-
-.dark-theme #clock {
-    background-color: #1a237e;
-    color: #bbdefb;
-    border: 2px solid #bbdefb;
-    border-radius: 8px;
-    padding: 10px;
-    margin-bottom: 10px;
-}
-
-.container {
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 20px;
-    width: 100%;
-}
-
-.history {
-    width: 300px;
-    max-height: 80vh;
-    overflow-y: auto;
-    background-color: #f4f4f4;
-    border-radius: 8px;
-    padding: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.history h2 {
-    text-align: center;
-    margin: 0 0 10px;
-}
-
-#history-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-#history-list li {
-    background-color: #fff;
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 4px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    font-size: 1em;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-#history-list li span {
-    color: #555;
-}
-
-#history-list li button {
-    background-color: #ff5252;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    padding: 5px 10px;
-    font-size: 0.8em;
-}
-
-#history-list li button:hover {
-    background-color: #ff0000;
-}
-
-* {
-    box-sizing: border-box;
-}
-
 body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
     font-family: Arial, sans-serif;
-}
-
-.calculator {
-    width: 300px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
-}
-
-#display {
-    width: 100%;
+    margin: 0;
     padding: 20px;
-    font-size: 24px;
-    text-align: right;
-    border: none;
-    outline: none;
 }
 
-.buttons {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    padding: 10px;
+#calculator {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    background-color: #f4f4f4;
 }
 
 button {
+    margin: 5px;
     padding: 20px;
     font-size: 18px;
-    border: none;
-    border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    width: 100%; /* Tlačítka budou mít 100% šířku, aby byla zarovnána na střed */
+    height: 70px; /* Zajišťuje rovnoměrnou výšku pro všechna tlačítka */
+    text-align: center;
+    box-sizing: border-box; /* Zajistí, že padding neovlivní šířku tlačítka */
 }
 
-button:active {
-    background-color: #d4d4d4;
+#input, #switchModeButton, #calculateButton {
+    width: 100%; /* Zajistí, že vstupní pole i tlačítka budou mít 100% šířku */
+    padding: 15px; /* Větší padding pro lepší rozměry */
+    font-size: 18px; /* Velikost textu */
+    margin: 10px 0; /* Mezery mezi prvky */
+    text-align: center; /* Zarovnání textu na střed */
+    box-sizing: border-box; /* Zajistí, že padding neovlivní šířku */
+    margin-left: auto; /* Zarovnání na střed */
+    margin-right: auto; /* Zarovnání na střed */
 }
 
-.zero {
-    grid-column: span 2;
+#input {
+    font-size: 18px;
 }
 
+.hidden {
+    display: none;
+}
 
+#standardMode, #chemistryMode {
+    margin-bottom: 20px;
+}
 
+.button-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 sloupce pro tlačítka */
+    gap: 10px;
+    margin-top: 20px;
+}
 
+#realTime {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #555;
+}
 
+h3 {
+    margin-top: 20px;
+}
+
+/* Styl pro tlačítko "=" */
+#equalButton {
+    height: 150px; /* Větší výška pro "=" tlačítko */
+    background-color: #f39c12; /* Barva pro tlačítko "=" */
+}

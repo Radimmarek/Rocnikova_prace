@@ -2,6 +2,8 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 20px;
+    background-color: #fff;
+    color: #000;
 }
 
 #calculator {
@@ -13,30 +15,37 @@ body {
     background-color: #f4f4f4;
 }
 
+#input {
+    font-size: 24px;
+    padding: 20px;
+    height: 60px;
+    width: 100%;
+    margin: 10px 0;
+    box-sizing: border-box;
+    text-align: center;
+}
+
 button {
     margin: 5px;
     padding: 20px;
     font-size: 18px;
     cursor: pointer;
-    width: 100%; /* Tlačítka budou mít 100% šířku, aby byla zarovnána na střed */
-    height: 70px; /* Zajišťuje rovnoměrnou výšku pro všechna tlačítka */
-    text-align: center;
-    box-sizing: border-box; /* Zajistí, že padding neovlivní šířku tlačítka */
+    width: 100%;
+    height: 70px;
+    box-sizing: border-box;
 }
 
-#input, #switchModeButton, #calculateButton {
-    width: 100%; /* Zajistí, že vstupní pole i tlačítka budou mít 100% šířku */
-    padding: 15px; /* Větší padding pro lepší rozměry */
-    font-size: 18px; /* Velikost textu */
-    margin: 10px 0; /* Mezery mezi prvky */
-    text-align: center; /* Zarovnání textu na střed */
-    box-sizing: border-box; /* Zajistí, že padding neovlivní šířku */
-    margin-left: auto; /* Zarovnání na střed */
-    margin-right: auto; /* Zarovnání na střed */
+#equalButton {
+    background-color: #f39c12;
+    height: 150px;
 }
 
-#input {
+#switchModeButton, #calculateButton {
+    width: 100%;
+    padding: 15px;
     font-size: 18px;
+    margin: 10px 0;
+    box-sizing: border-box;
 }
 
 .hidden {
@@ -49,7 +58,7 @@ button {
 
 .button-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 sloupce pro tlačítka */
+    grid-template-columns: repeat(4, 1fr);
     gap: 10px;
     margin-top: 20px;
 }
@@ -64,8 +73,33 @@ h3 {
     margin-top: 20px;
 }
 
-/* Styl pro tlačítko "=" */
-#equalButton {
-    height: 150px; /* Větší výška pro "=" tlačítko */
-    background-color: #f39c12; /* Barva pro tlačítko "=" */
+/* Tlačítko pro změnu motivu */
+#themeToggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #555;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+/* Tmavý režim */
+body.dark-mode {
+    background-color: #121212;
+    color: white;
+}
+
+body.dark-mode #calculator {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode button {
+    background-color: #333;
+    color: white;
 }

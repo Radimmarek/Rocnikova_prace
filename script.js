@@ -1,10 +1,8 @@
-// Funkce pro přepínání mezi režimy kalkulačky
 function switchMode() {
     let calculator = document.getElementById('calculator');
     let chemistryMode = document.getElementById('chemistryMode');
     let standardMode = document.getElementById('standardMode');
-    
-    // Přepnutí mezi standardním a chemickým režimem
+
     if (calculator.classList.contains('standard')) {
         calculator.classList.remove('standard');
         calculator.classList.add('chemical');
@@ -20,39 +18,25 @@ function switchMode() {
     }
 }
 
-// Obnovení režimu po reloadu stránky
-window.onload = function() {
-    let mode = localStorage.getItem('mode');
-    if (mode === 'chemical') {
-        switchMode();
-    }
-    showRealTime();
-    changeBackgroundColor();
-};
-
-// Funkce pro přidání čísla nebo operátora do vstupu kalkulačky
 function appendToInput(value) {
     document.getElementById('input').value += value;
 }
 
-// Funkce pro vymazání vstupu kalkulačky
 function clearInput() {
     document.getElementById('input').value = '';
 }
 
-// Funkce pro výpočty ve standardní kalkulačce
 function calculate() {
-    let input = document.getElementById('input').value;
+    let input = document.getElementById('input');
     try {
-        let result = eval(input);
-        document.getElementById('result').innerText = 'Výsledek: ' + result;
-        addToHistory(input + ' = ' + result);
+        let result = eval(input.value);
+        input.value = result;
+        addToHistory(input.value);
     } catch (e) {
-        document.getElementById('result').innerText = 'Chyba ve výpočtu';
+        input.value = 'Chyba';
     }
 }
 
-// Funkce pro přidání výpočtu do historie
 function addToHistory(entry) {
     let historyList = document.getElementById('historyList');
     let li = document.createElement('li');
@@ -60,14 +44,13 @@ function addToHistory(entry) {
     historyList.appendChild(li);
 }
 
-// Funkce pro výpočty v chemické kalkulačce
 function calculateChemical() {
     let molarMass = parseFloat(document.getElementById('molarMass').value);
     let amount = parseFloat(document.getElementById('amount').value);
     let concentration = parseFloat(document.getElementById('concentration').value);
     let volume = parseFloat(document.getElementById('volume').value);
     let chemicalResult = document.getElementById('chemicalResult');
-    
+
     if (!isNaN(molarMass) && !isNaN(amount)) {
         let weight = molarMass * amount;
         chemicalResult.innerText = 'Hmotnost: ' + weight.toFixed(2) + ' g';
@@ -82,19 +65,18 @@ function calculateChemical() {
     }
 }
 
-// Funkce pro změnu pozadí podle času
 function changeBackgroundColor() {
     let hour = new Date().getHours();
     let calculator = document.getElementById('calculator');
     if (hour >= 6 && hour < 18) {
-        calculator.style.backgroundColor = '#f4f4f4'; // Světlé pozadí
+        calculator.style.backgroundColor = '#f4f4f4';
+        document.body.style.color = '#000';
     } else {
-        calculator.style.backgroundColor = '#333'; // Tmavé pozadí
+        calculator.style.backgroundColor = '#333';
         document.body.style.color = '#fff';
     }
 }
 
-// Funkce pro zobrazení aktuálního času
 function showRealTime() {
     let timeElement = document.getElementById('realTime');
     setInterval(() => {
@@ -103,6 +85,25 @@ function showRealTime() {
     }, 1000);
 }
 
-// Zavolání funkce pro změnu pozadí každou minutu
+function toggleTheme() {
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+}
+
+window.onload = function () {
+    let mode = localStorage.getItem('mode');
+    let theme = localStorage.getItem('theme');
+    if (mode === 'chemical') {
+        document.getElementById('calculator').classList.remove('standard');
+        document.getElementById('calculator').classList.add('chemical');
+        document.getElementById('chemistryMode').classList.remove('hidden');
+        document.getElementById('standardMode').classList.add('hidden');
+    }
+    if (theme === 'dark') {
+        document.body.classList.add('dark-mode');
+    }
+    showRealTime();
+    changeBackgroundColor();
+};
+
 setInterval(changeBackgroundColor, 60000);
-changeBackgroundColor();

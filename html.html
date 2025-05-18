@@ -14,7 +14,7 @@
         <!-- Standardní kalkulačka -->
         <div id="standardMode">
             <input type="text" id="input" placeholder="Zadejte výpočet">
-            
+
             <div class="button-grid">
                 <button onclick="appendToInput('1')">1</button>
                 <button onclick="appendToInput('2')">2</button>
@@ -30,8 +30,11 @@
                 <button onclick="appendToInput('*')">*</button>
                 <button onclick="appendToInput('0')">0</button>
                 <button onclick="clearInput()">C</button>
-                <button id="equalButton" onclick="calculate()">=</button>
                 <button onclick="appendToInput('/')">/</button>
+                <button onclick="calculate()">=</button>
+                <button onclick="appendToInput('**2')">x²</button>
+                <button onclick="appendToInput('**0.5')">√</button>
+                <button onclick="appendToInput('/100')">%</button>
             </div>
         </div>
 
@@ -44,16 +47,16 @@
             <button id="calculateButton" onclick="calculateChemical()">Vypočítat</button>
             <div id="chemicalResult"></div>
         </div>
-        
-        <!-- Výsledek výpočtu -->
-        <div id="result"></div>
-        
+
         <!-- Historie výpočtů -->
         <h3>Historie výpočtů:</h3>
         <ul id="historyList"></ul>
 
         <!-- Zobrazení aktuálního času -->
         <div id="realTime"></div>
+
+        <!-- Tlačítko pro přepnutí motivu -->
+        <button id="themeToggle" onclick="toggleTheme()">🌓</button>
     </div>
 
     <script src="script.js"></script>
